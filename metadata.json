@@ -1,0 +1,8 @@
+{
+  "name": "A Bíblia para Todos os Momentos da Vida",
+  "description": "Página de vendas de alta conversão para o ebook A Bíblia para Todos os Momentos da Vida, com quiz de autodiagnóstico integrado e narrativa editorial de resposta direta.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
