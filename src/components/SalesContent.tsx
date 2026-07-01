@@ -507,13 +507,13 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
           </div>
 
           <a
-            href="https://pay.kiwify.com.br/placeholder"
+            href="https://pay.kiwify.com.br/FEHxh6q"
             target="_blank"
             rel="noreferrer"
             id="btn-buy-final"
             className="w-full sm:w-auto px-10 py-5 bg-[#8C7A5B] hover:bg-[#736349] text-white font-sans font-medium rounded-lg text-lg shadow-lg transition-all duration-200 flex items-center justify-center gap-3 group mx-auto cursor-pointer"
           >
-            <span>Quero um norte agora por R$ 37,90</span>
+            <span>Quero parar de fracassar</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </a>
 

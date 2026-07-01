@@ -268,12 +268,6 @@ export default function Quiz({ onComplete }: QuizProps) {
                     className="relative w-[210px] sm:w-[240px] h-auto rounded-r-2xl rounded-l-md shadow-2xl transition-all duration-300 transform group-hover:-translate-y-2 group-hover:rotate-1"
                     referrerPolicy="no-referrer"
                   />
-                  
-                  {/* Absolute bonus badge overlapping book */}
-                  <div className="absolute -top-4 -right-4 bg-[#8C7A5B] hover:bg-[#736349] text-white px-3.5 py-2 rounded-full text-[10px] font-mono tracking-widest uppercase shadow-lg flex items-center gap-1 z-20 transform hover:scale-105 transition-transform cursor-pointer">
-                    <BookOpen size={11} className="animate-pulse" />
-                    <span>+ MAPA MENTAL</span>
-                  </div>
                 </div>
               </div>
 
@@ -304,13 +298,13 @@ export default function Quiz({ onComplete }: QuizProps) {
 
               {/* DIRECT REDIRECT BUTTON WITH DEEP MICROCOPY */}
               <a
-                href="https://pay.kiwify.com.br/placeholder"
+                href="https://pay.kiwify.com.br/FEHxh6q"
                 target="_blank"
                 rel="noreferrer"
                 id="btn-buy-result"
                 className="w-full sm:w-auto px-10 py-5 bg-[#8C7A5B] hover:bg-[#736349] text-white font-sans font-semibold rounded-lg text-lg shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer"
               >
-                <span>Quero parar de andar sem rumo</span>
+                <span>Quero parar de fracassar</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-200" />
               </a>
 

@@ -3,13 +3,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Quiz from './components/Quiz';
 import SalesContent from './components/SalesContent';
 import { Heart } from 'lucide-react';
 
 export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia' | null>(null);
+
+  // Preload images as soon as the application starts
+  useEffect(() => {
+    const imagesToPreload = [
+      'https://i.imgur.com/X8pL60b.png',
+      'https://i.imgur.com/Lo7Xjs0.png'
+    ];
+    imagesToPreload.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   const handleQuizComplete = (category: 'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia') => {
     setSelectedCategory(category);
