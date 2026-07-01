@@ -19,6 +19,22 @@ export default function Quiz({ onComplete }: QuizProps) {
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [loadingText, setLoadingText] = useState('Analisando suas respostas...');
   const [calculatedCategory, setCalculatedCategory] = useState<'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia'>('fe');
+  const [timeLeft, setTimeLeft] = useState(899); // 14 minutes, 59 seconds
+
+  // Countdown timer for limited-time offer urgency
+  useEffect(() => {
+    if (step !== 'result') return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 899));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [step]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Loading animation phases
   useEffect(() => {
@@ -195,6 +211,19 @@ export default function Quiz({ onComplete }: QuizProps) {
             className="w-full text-[#1A1A1A]"
             id="quiz-result-section"
           >
+            {/* Elegant Limited Time Countdown Banner with vibrant color play */}
+            <div className="bg-gradient-to-r from-amber-700 via-rose-800 to-amber-900 text-white text-xs sm:text-sm font-mono py-3.5 px-4 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow-lg text-center border-2 border-[#C5A880]/30" id="urgency-banner">
+              <span className="flex items-center gap-1.5 font-bold uppercase tracking-widest animate-pulse text-[#F5F2EB]">
+                <Clock size={16} />
+                ⚠️ OFERTA DE TEMPO LIMITADO
+              </span>
+              <span className="hidden sm:inline text-stone-400">|</span>
+              <span className="text-stone-100">Seu diagnóstico e o desconto promocional de lançamento expiram em:</span>
+              <span className="font-bold bg-black/45 px-3 py-1 rounded-md tracking-wider text-base sm:text-lg text-amber-300 font-mono shadow-inner">
+                {formatTime(timeLeft)}
+              </span>
+            </div>
+
             {/* Elegant Integrated Editorial Header */}
             <div className="w-full text-center mb-10 pt-4" id="result-editorial-header">
               <div className="inline-block border-b border-stone-300 pb-3 px-6">
@@ -203,7 +232,7 @@ export default function Quiz({ onComplete }: QuizProps) {
             </div>
 
             {/* DIAGNOSTIC PANEL */}
-            <div className="border border-[#E8E4D9] bg-[#FDFCF9] rounded-2xl p-6 sm:p-10 mb-12 shadow-sm relative overflow-hidden" id="diagnosis-card">
+            <div className="border border-[#E8E4D9] bg-[#FDFCF9] rounded-2xl p-6 sm:p-10 mb-8 shadow-sm relative overflow-hidden animate-fade-in" id="diagnosis-card">
               {/* Elegant header stamp */}
               <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-[#A8A29E]/50 uppercase tracking-widest hidden sm:block">
                 Ref. {calculatedCategory.toUpperCase()}-2026
@@ -232,7 +261,7 @@ export default function Quiz({ onComplete }: QuizProps) {
                 <h4 className="font-sans font-semibold text-sm text-[#1A1A1A] uppercase tracking-wider mb-4">
                   O que você vai descobrir e destravar hoje:
                 </h4>
-                <ul className="space-y-3 text-[#44403C] text-sm sm:text-base">
+                <ul className="space-y-3 text-[#44403C] text-sm sm:text-base mb-8">
                   {resultData.details.map((detail, dIdx) => (
                     <li key={dIdx} className="flex items-start gap-2.5">
                       <div className="w-5 h-5 rounded-full bg-[#E8E4D9]/40 flex items-center justify-center shrink-0 mt-0.5">
@@ -242,6 +271,23 @@ export default function Quiz({ onComplete }: QuizProps) {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              {/* ADDITIONAL HIGH-CONVERTING CALLOUT WITH EXACT USER PHRASE & CTA BUTTON 1 */}
+              <div className="border-t border-[#E8E4D9] pt-8 mt-8 text-center bg-[#FAF8F2] -mx-6 sm:-mx-10 p-6 sm:p-8 rounded-b-2xl">
+                <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6 max-w-xl mx-auto">
+                  "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+                </p>
+                
+                <a
+                  href="https://pay.kiwify.com.br/FEHxh6q"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto inline-flex px-8 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-semibold rounded-lg text-base shadow-md hover:shadow-xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
+                >
+                  <span>Quero parar de fracassar</span>
+                  <ArrowRight size={18} />
+                </a>
               </div>
             </div>
 
@@ -271,10 +317,10 @@ export default function Quiz({ onComplete }: QuizProps) {
                 </div>
               </div>
 
-              {/* HONEST ANCHOR PRICING */}
-              <div className="bg-[#FAF8F2] border border-[#E8E4D9] rounded-2xl py-6 px-6 max-w-sm mx-auto mb-8 text-center shadow-sm relative overflow-hidden" id="pricing-box">
+              {/* HONEST ANCHOR PRICING - WITH COLORED INTERPLAY */}
+              <div className="bg-[#FAF8F2] border-2 border-[#C5A880] rounded-2xl py-6 px-6 max-w-sm mx-auto mb-8 text-center shadow-md relative overflow-hidden" id="pricing-box">
                 {/* Decorative tag */}
-                <div className="absolute top-0 right-0 bg-[#8C7A5B] text-white text-[9px] font-mono tracking-wider px-3 py-1 rounded-bl-lg uppercase">
+                <div className="absolute top-0 right-0 bg-[#8C7A5B] text-white text-[9px] font-mono tracking-wider px-3 py-1 rounded-bl-lg uppercase font-semibold">
                   Melhor Oferta
                 </div>
                 
@@ -283,6 +329,11 @@ export default function Quiz({ onComplete }: QuizProps) {
                 <div className="flex items-center justify-center gap-3 my-2">
                   <span className="font-sans text-sm text-[#8C7A5B]/60 line-through">R$ 97,00</span>
                   <span className="font-serif text-4xl font-extrabold text-[#1A1A1A]">R$ 37,90</span>
+                </div>
+
+                <div className="text-[11px] font-mono text-rose-600 font-bold mb-3 flex items-center justify-center gap-1 bg-rose-50 border border-rose-100 rounded-lg py-1 px-2.5 animate-pulse inline-block mx-auto">
+                  <Clock size={12} />
+                  <span>Oferta expira em: {formatTime(timeLeft)}</span>
                 </div>
                 
                 <p className="text-[11px] font-sans text-[#8C7A5B] mt-1 italic">
@@ -296,13 +347,13 @@ export default function Quiz({ onComplete }: QuizProps) {
                 </p>
               </div>
 
-              {/* DIRECT REDIRECT BUTTON WITH DEEP MICROCOPY */}
+              {/* DIRECT REDIRECT BUTTON WITH DEEP MICROCOPY & GOLD GRADIENT */}
               <a
                 href="https://pay.kiwify.com.br/FEHxh6q"
                 target="_blank"
                 rel="noreferrer"
                 id="btn-buy-result"
-                className="w-full sm:w-auto px-10 py-5 bg-[#8C7A5B] hover:bg-[#736349] text-white font-sans font-semibold rounded-lg text-lg shadow-md hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer"
+                className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-lg shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer transform hover:scale-[1.03]"
               >
                 <span>Quero parar de fracassar</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-200" />

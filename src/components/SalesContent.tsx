@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Check, X, Shield, ChevronDown, ChevronUp, ArrowRight, Heart, Sparkles, BookOpen, Clock, FileText } from 'lucide-react';
 
@@ -13,6 +13,21 @@ interface SalesContentProps {
 
 export default function SalesContent({ selectedCategory }: SalesContentProps) {
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const [timeLeft, setTimeLeft] = useState(899); // 14 minutes, 59 seconds
+
+  // Countdown timer for limited-time offer urgency
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 899));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const toggleFaq = (idx: number) => {
     setOpenFaqIdx(openFaqIdx === idx ? null : idx);
@@ -135,6 +150,19 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
 
   return (
     <div id="sales-content-root" className="w-full bg-[#FDFCF9] text-[#1A1A1A] font-sans pb-24">
+      {/* Dynamic Top Urgent Oferta Banner with vibrant color play */}
+      <div className="bg-gradient-to-r from-amber-700 via-rose-800 to-amber-950 text-[#FDFCF9] py-3.5 px-4 text-center text-xs sm:text-sm font-mono tracking-wide border-b border-[#C5A880]/30 shadow-sm" id="sales-top-banner">
+        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+          <span className="font-bold flex items-center gap-1.5 animate-pulse text-amber-300">
+            <Clock size={14} /> OFERTA POR TEMPO LIMITADO:
+          </span>
+          <span>Desconto especial de R$ 97,00 por apenas R$ 37,90 expira em:</span>
+          <span className="font-bold bg-black/45 px-2.5 py-0.5 rounded text-amber-300 font-mono animate-pulse">
+            {formatTime(timeLeft)}
+          </span>
+        </div>
+      </div>
+
       {/* SECTION 1: DIFICULDADES (A CENA REAL) */}
       <section className="py-16 sm:py-24 px-4 max-w-4xl mx-auto border-t border-[#E8E4D9]" id="section-difficulties">
         <div className="text-center mb-12">
@@ -198,6 +226,24 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
                 Quando a preocupação financeira tenta roubar sua atenção e gerar desespero, você respira fundo sabendo que está debaixo de uma instrução espiritual madura. Suas escolhas de dinheiro passam a ser calmas, cirúrgicas e guiadas por princípios de provisão estável.
               </p>
             </div>
+          </div>
+
+          {/* EXTRA HIGH-CONVERTING CTA BUTTON 1 WITH USER REQUEST PHRASE */}
+          <div className="mt-16 text-center max-w-2xl mx-auto bg-white border border-[#E8E4D9] rounded-2xl p-8 shadow-sm">
+            <span className="font-mono text-xs uppercase tracking-widest text-[#8C7A5B] font-semibold block mb-2">Sua Oportunidade de Decisão</span>
+            <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
+              "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+            </p>
+            <a
+              href="https://pay.kiwify.com.br/FEHxh6q"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-md hover:shadow-xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
+            >
+              <span>Quero parar de fracassar</span>
+              <ArrowRight size={18} />
+            </a>
+            <span className="block text-[10px] font-mono text-[#8C7A5B] mt-3 animate-pulse">⚠️ Oferta Especial Expira em {formatTime(timeLeft)}</span>
           </div>
         </div>
       </section>
@@ -315,6 +361,23 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             </div>
           </div>
         </div>
+
+        {/* EXTRA HIGH-CONVERTING CTA BUTTON 2 WITH USER REQUEST PHRASE */}
+        <div className="mt-12 text-center max-w-2xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-[#FAF8F2] to-[#F5F2EB] border border-[#E8E4D9] shadow-md">
+          <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
+            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+          </p>
+          <a
+            href="https://pay.kiwify.com.br/FEHxh6q"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-lg hover:shadow-2xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
+          >
+            <span>Quero parar de fracassar</span>
+            <ArrowRight size={18} />
+          </a>
+          <span className="block text-[10px] font-mono text-rose-600 font-bold mt-3 animate-pulse">⏰ Preço promocional garantido por apenas {formatTime(timeLeft)}</span>
+        </div>
       </section>
 
       {/* SECTION 6: PARA QUEM É / NÃO É (HONESTIDADE) */}
@@ -425,6 +488,23 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             </div>
           </div>
         </div>
+
+        {/* EXTRA HIGH-CONVERTING CTA BUTTON 3 WITH USER REQUEST PHRASE */}
+        <div className="mt-12 text-center max-w-2xl mx-auto p-8 rounded-2xl bg-[#FAF8F2] border border-[#E8E4D9] shadow-sm">
+          <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
+            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+          </p>
+          <a
+            href="https://pay.kiwify.com.br/FEHxh6q"
+            target="_blank"
+            rel="noreferrer"
+            className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-lg hover:shadow-2xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
+          >
+            <span>Quero parar de fracassar</span>
+            <ArrowRight size={18} />
+          </a>
+          <span className="block text-[10px] font-mono text-emerald-700 font-bold mt-3 animate-pulse">✓ Entrega 100% Segura • Acesso Vitalício com Bônus</span>
+        </div>
       </section>
 
       {/* SECTION 8: GARANTIA (SEGURANÇA TOTAL) */}
@@ -487,9 +567,9 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
       </section>
 
       {/* SECTION 10: CTA FINAL (FECHAMENTO CIRCULAR) */}
-      <section className="py-16 sm:py-24 bg-[#1A1A1A] text-[#FDFCF9] text-center px-4" id="section-final-cta">
+      <section className="py-16 sm:py-24 bg-[#121212] text-[#FDFCF9] text-center px-4 border-t border-stone-800" id="section-final-cta">
         <div className="max-w-2xl mx-auto space-y-6">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#C5A880]">A Decisão é Sua</span>
+          <span className="font-mono text-xs uppercase tracking-widest text-[#C5A880] font-semibold animate-pulse block">⌛ OFERTA DE TEMPO LIMITADO</span>
           
           <h2 className="font-serif text-3xl sm:text-4xl text-white tracking-tight leading-tight max-w-xl mx-auto">
             Esta noite você vai deitar com o mesmo peso no peito, ou vai escolher ter um norte claro?
@@ -499,25 +579,36 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             Daqui a 12 meses, você lembrará desse momento como o dia em que decidiu parar de andar em círculos e colocou ordem espiritual na sua mente, no seu casamento e na sua casa. Ou lembrará como mais uma oportunidade deixada de lado.
           </p>
 
-          <div className="bg-[#262626] border border-stone-800 rounded-xl p-5 max-w-md mx-auto my-8">
+          <div className="bg-[#1C1C1C] border border-[#C5A880]/30 rounded-xl p-5 max-w-md mx-auto my-8">
             <span className="font-mono text-[10px] text-stone-400 uppercase tracking-widest block mb-1">Diagnóstico Personalizado Ativo</span>
             <div className="font-serif text-sm text-[#C5A880] italic">
               "Você indicou precisar de renovo prático sobre {getCategoryThemeName()}. Esta resposta está a um toque de distância."
             </div>
           </div>
 
+          {/* Urgent Offer Clock display */}
+          <div className="bg-gradient-to-r from-amber-950 via-stone-900 to-amber-950 border border-amber-800/40 rounded-xl py-3 px-6 max-w-md mx-auto flex items-center justify-center gap-3 font-mono text-sm shadow-inner mb-8">
+            <Clock size={16} className="text-amber-400 animate-spin-slow" />
+            <span className="text-stone-300">Seu desconto expira em:</span>
+            <span className="font-bold text-amber-400 tracking-widest text-lg">{formatTime(timeLeft)}</span>
+          </div>
+
+          <p className="font-serif italic text-base sm:text-lg text-amber-200 leading-relaxed font-semibold max-w-xl mx-auto my-6">
+            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+          </p>
+
           <a
             href="https://pay.kiwify.com.br/FEHxh6q"
             target="_blank"
             rel="noreferrer"
             id="btn-buy-final"
-            className="w-full sm:w-auto px-10 py-5 bg-[#8C7A5B] hover:bg-[#736349] text-white font-sans font-medium rounded-lg text-lg shadow-lg transition-all duration-200 flex items-center justify-center gap-3 group mx-auto cursor-pointer"
+            className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-lg shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer transform hover:scale-[1.03]"
           >
             <span>Quero parar de fracassar</span>
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-200" />
           </a>
 
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-xs font-mono text-stone-400" id="final-trust-list">
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-xs font-mono text-stone-400" id="final-trust-list">
             <span>Acesso Imediato</span>
             <span className="hidden sm:inline">•</span>
             <span>Sem Mensalidade</span>
