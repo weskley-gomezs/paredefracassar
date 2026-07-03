@@ -11,15 +11,41 @@ import { QuizAnswers, DiagnosisResult } from '../types';
 
 interface QuizProps {
   onComplete: (category: 'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia') => void;
+  copyVersion?: 'original' | 'A' | 'B';
 }
 
-export default function Quiz({ onComplete }: QuizProps) {
+export default function Quiz({ onComplete, copyVersion = 'A' }: QuizProps) {
   const [step, setStep] = useState<'intro' | 'questions' | 'loading' | 'result'>('intro');
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({});
   const [loadingText, setLoadingText] = useState('Analisando suas respostas...');
   const [calculatedCategory, setCalculatedCategory] = useState<'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia'>('fe');
   const [timeLeft, setTimeLeft] = useState(899); // 14 minutes, 59 seconds
+
+  const copyData = useMemo(() => {
+    return {
+      urgencyTitle: 
+        copyVersion === 'original' ? '⚠️ OFERTA DE TEMPO LIMITADO' :
+        copyVersion === 'A' ? '🌱 OFERTA ESPECIAL DE LANÇAMENTO' :
+        '✨ OPORTUNIDADE DE BOAS-VINDAS',
+      urgencyDesc:
+        copyVersion === 'original' ? 'Seu diagnóstico e o desconto promocional de lançamento expiram em:' :
+        copyVersion === 'A' ? 'Garanta seu diagnóstico e o desconto de boas-vindas para a sua caminhada em:' :
+        'O desconto exclusivo de lançamento para destravar seu crescimento expira em:',
+      exactQuote:
+        copyVersion === 'original' ? '"Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"' :
+        copyVersion === 'A' ? '"Vai deixar sua caminhada como está ou quer encontrar a clareza para avançar em cada área de sua vida? Clique abaixo e dê o próximo passo."' :
+        '"Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"',
+      ctaText:
+        copyVersion === 'original' ? 'Quero parar de fracassar' :
+        copyVersion === 'A' ? 'Quero clareza para minha caminhada' :
+        'Quero viver isso na prática',
+      productHeroDesc:
+        copyVersion === 'original' ? 'Um mapa de navegação espiritual contendo 100 estudos bíblicos altamente práticos desenhados especificamente para te dar um norte rápido quando o peito apertar, as finanças preocuparem ou a alma cansar.' :
+        copyVersion === 'A' ? 'Um mapa de navegação espiritual contendo 100 estudos bíblicos práticos desenhados para fortalecer sua fé, trazer clareza para sua caminhada e dar um norte seguro em momentos de decisão.' :
+        'Um roteiro prático com 100 reflexões bíblicas focadas em atitude e direção espiritual, projetado para restabelecer a paz e impulsionar a sabedoria em todas as áreas da vida.'
+    };
+  }, [copyVersion]);
 
   // Countdown timer for limited-time offer urgency
   useEffect(() => {
@@ -215,10 +241,10 @@ export default function Quiz({ onComplete }: QuizProps) {
             <div className="bg-gradient-to-r from-amber-700 via-rose-800 to-amber-900 text-white text-xs sm:text-sm font-mono py-3.5 px-4 rounded-xl mb-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 shadow-lg text-center border-2 border-[#C5A880]/30" id="urgency-banner">
               <span className="flex items-center gap-1.5 font-bold uppercase tracking-widest animate-pulse text-[#F5F2EB]">
                 <Clock size={16} />
-                ⚠️ OFERTA DE TEMPO LIMITADO
+                {copyData.urgencyTitle}
               </span>
               <span className="hidden sm:inline text-stone-400">|</span>
-              <span className="text-stone-100">Seu diagnóstico e o desconto promocional de lançamento expiram em:</span>
+              <span className="text-stone-100">{copyData.urgencyDesc}</span>
               <span className="font-bold bg-black/45 px-3 py-1 rounded-md tracking-wider text-base sm:text-lg text-amber-300 font-mono shadow-inner">
                 {formatTime(timeLeft)}
               </span>
@@ -276,7 +302,7 @@ export default function Quiz({ onComplete }: QuizProps) {
               {/* ADDITIONAL HIGH-CONVERTING CALLOUT WITH EXACT USER PHRASE & CTA BUTTON 1 */}
               <div className="border-t border-[#E8E4D9] pt-8 mt-8 text-center bg-[#FAF8F2] -mx-6 sm:-mx-10 p-6 sm:p-8 rounded-b-2xl">
                 <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6 max-w-xl mx-auto">
-                  "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+                  {copyData.exactQuote}
                 </p>
                 
                 <a
@@ -285,7 +311,7 @@ export default function Quiz({ onComplete }: QuizProps) {
                   rel="noreferrer"
                   className="w-full sm:w-auto inline-flex px-8 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-semibold rounded-lg text-base shadow-md hover:shadow-xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
                 >
-                  <span>Quero parar de fracassar</span>
+                  <span>{copyData.ctaText}</span>
                   <ArrowRight size={18} />
                 </a>
               </div>
@@ -298,7 +324,7 @@ export default function Quiz({ onComplete }: QuizProps) {
                 100 Estudos Bíblicos para Parar de Fracassar
               </h3>
               <p className="font-sans text-base sm:text-lg text-[#6B665E] leading-relaxed mb-10">
-                Um mapa de navegação espiritual contendo <strong className="font-semibold text-[#1A1A1A]">100 estudos bíblicos altamente práticos</strong> desenhados especificamente para te dar um norte rápido quando o peito apertar, as finanças preocuparem ou a alma cansar.
+                {copyData.productHeroDesc}
               </p>
 
               {/* Enhanced 3D Book Presentation */}
@@ -355,7 +381,7 @@ export default function Quiz({ onComplete }: QuizProps) {
                 id="btn-buy-result"
                 className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-lg shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer transform hover:scale-[1.03]"
               >
-                <span>Quero parar de fracassar</span>
+                <span>{copyData.ctaText}</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-200" />
               </a>
 

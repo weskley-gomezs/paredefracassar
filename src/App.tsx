@@ -47,11 +47,11 @@ export default function App() {
       id="app-container"
     >
       {/* Main Content Area */}
-      <main className="flex-grow flex flex-col justify-center items-center" id="main-content">
-        <Quiz onComplete={handleQuizComplete} />
+      <main className="flex-grow flex flex-col justify-center items-center pb-24" id="main-content">
+        <Quiz onComplete={handleQuizComplete} copyVersion="A" />
         
         {selectedCategory && (
-          <SalesContent selectedCategory={selectedCategory} />
+          <SalesContent selectedCategory={selectedCategory} copyVersion="A" />
         )}
       </main>
     </div>

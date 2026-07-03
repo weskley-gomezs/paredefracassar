@@ -3,17 +3,55 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Check, X, Shield, ChevronDown, ChevronUp, ArrowRight, Heart, Sparkles, BookOpen, Clock, FileText } from 'lucide-react';
 
 interface SalesContentProps {
   selectedCategory: 'casamento' | 'financas' | 'fe' | 'ansiedade' | 'familia';
+  copyVersion?: 'original' | 'A' | 'B';
 }
 
-export default function SalesContent({ selectedCategory }: SalesContentProps) {
+export default function SalesContent({ selectedCategory, copyVersion = 'A' }: SalesContentProps) {
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(899); // 14 minutes, 59 seconds
+
+  const copyData = useMemo(() => {
+    return {
+      topBannerTitle:
+        copyVersion === 'original' ? 'OFERTA POR TEMPO LIMITADO:' :
+        copyVersion === 'A' ? 'OFERTA ESPECIAL DE LANÇAMENTO:' :
+        'CONVITE DE LANÇAMENTO EXCLUSIVO:',
+      topBannerBody:
+        copyVersion === 'original' ? 'Desconto especial de R$ 97,00 por apenas R$ 37,90 expira em:' :
+        copyVersion === 'A' ? 'Garanta seu diagnóstico e o desconto de lançamento de R$ 97,00 por apenas R$ 37,90 em:' :
+        'Seu desconto especial de boas-vindas de R$ 97,00 por apenas R$ 37,90 expira em:',
+      exactQuote:
+        copyVersion === 'original' ? '"Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"' :
+        copyVersion === 'A' ? '"Vai deixar sua caminhada como está ou quer encontrar a clareza para avançar em cada área de sua vida? Clique abaixo e dê o próximo passo."' :
+        '"Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"',
+      ctaText:
+        copyVersion === 'original' ? 'Quero parar de fracassar' :
+        copyVersion === 'A' ? 'Quero clareza para minha caminhada' :
+        'Quero viver isso na prática',
+      finalHeadline:
+        copyVersion === 'original' ? 'Esta noite você vai deitar com o mesmo peso no peito, ou vai escolher ter um norte claro?' :
+        copyVersion === 'A' ? 'Esta noite você vai deitar sem um rumo claro, ou vai escolher um caminho seguro de crescimento com Deus?' :
+        'Esta noite você pode continuar apenas desejando mudar, ou vai tomar a decisão prática de avançar em cada área?',
+      finalSubtitle:
+        copyVersion === 'original' ? 'Daqui a 12 meses, você lembrará desse momento como o dia em que decidiu parar de andar em círculos e colocou ordem espiritual na sua mente, no seu casamento e na sua casa. Ou lembrará como mais uma oportunidade deixada de lado.' :
+        copyVersion === 'A' ? 'Daqui a 12 meses, você lembrará desse momento como o dia em que decidiu caminhar com clareza e colocou ordem espiritual com base na Palavra na sua mente, no seu casamento e no seu lar. Ou lembrará como mais uma semente que deixou de cultivar.' :
+        'Daqui a 12 meses, você lembrará desse momento como o ponto de partida em que decidiu dar um rumo e avançar ativamente na sua mente, nas suas finanças e na sua família. Ou lembrará como mais um convite ao crescimento que passou direto.',
+      finalTimerText:
+        copyVersion === 'original' ? 'Seu desconto expira em:' :
+        copyVersion === 'A' ? 'Seu bônus e desconto de lançamento expiram em:' :
+        'O valor especial de boas-vindas está disponível por:',
+      finalUrgencyBadge:
+        copyVersion === 'original' ? 'A Decisão é Sua' :
+        copyVersion === 'A' ? '🌱 CONVITE DE CRESCIMENTO' :
+        '✨ OPORTUNIDADE DE BOAS-VINDAS'
+    };
+  }, [copyVersion]);
 
   // Countdown timer for limited-time offer urgency
   useEffect(() => {
@@ -154,9 +192,9 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
       <div className="bg-gradient-to-r from-amber-700 via-rose-800 to-amber-950 text-[#FDFCF9] py-3.5 px-4 text-center text-xs sm:text-sm font-mono tracking-wide border-b border-[#C5A880]/30 shadow-sm" id="sales-top-banner">
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
           <span className="font-bold flex items-center gap-1.5 animate-pulse text-amber-300">
-            <Clock size={14} /> OFERTA POR TEMPO LIMITADO:
+            <Clock size={14} /> {copyData.topBannerTitle}
           </span>
-          <span>Desconto especial de R$ 97,00 por apenas R$ 37,90 expira em:</span>
+          <span>{copyData.topBannerBody}</span>
           <span className="font-bold bg-black/45 px-2.5 py-0.5 rounded text-amber-300 font-mono animate-pulse">
             {formatTime(timeLeft)}
           </span>
@@ -232,7 +270,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
           <div className="mt-16 text-center max-w-2xl mx-auto bg-white border border-[#E8E4D9] rounded-2xl p-8 shadow-sm">
             <span className="font-mono text-xs uppercase tracking-widest text-[#8C7A5B] font-semibold block mb-2">Sua Oportunidade de Decisão</span>
             <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
-              "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+              {copyData.exactQuote}
             </p>
             <a
               href="https://pay.kiwify.com.br/FEHxh6q"
@@ -240,7 +278,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
               rel="noreferrer"
               className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-md hover:shadow-xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
             >
-              <span>Quero parar de fracassar</span>
+              <span>{copyData.ctaText}</span>
               <ArrowRight size={18} />
             </a>
             <span className="block text-[10px] font-mono text-[#8C7A5B] mt-3 animate-pulse">⚠️ Oferta Especial Expira em {formatTime(timeLeft)}</span>
@@ -365,7 +403,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
         {/* EXTRA HIGH-CONVERTING CTA BUTTON 2 WITH USER REQUEST PHRASE */}
         <div className="mt-12 text-center max-w-2xl mx-auto p-8 rounded-2xl bg-gradient-to-br from-[#FAF8F2] to-[#F5F2EB] border border-[#E8E4D9] shadow-md">
           <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
-            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+            {copyData.exactQuote}
           </p>
           <a
             href="https://pay.kiwify.com.br/FEHxh6q"
@@ -373,10 +411,10 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             rel="noreferrer"
             className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-lg hover:shadow-2xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
           >
-            <span>Quero parar de fracassar</span>
+            <span>{copyData.ctaText}</span>
             <ArrowRight size={18} />
           </a>
-          <span className="block text-[10px] font-mono text-rose-600 font-bold mt-3 animate-pulse">⏰ Preço promocional garantido por apenas {formatTime(timeLeft)}</span>
+          <span className="block text-[10px] font-mono text-[#8C7A5B] font-bold mt-3 animate-pulse">⏰ Preço promocional garantido por apenas {formatTime(timeLeft)}</span>
         </div>
       </section>
 
@@ -492,7 +530,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
         {/* EXTRA HIGH-CONVERTING CTA BUTTON 3 WITH USER REQUEST PHRASE */}
         <div className="mt-12 text-center max-w-2xl mx-auto p-8 rounded-2xl bg-[#FAF8F2] border border-[#E8E4D9] shadow-sm">
           <p className="font-serif italic text-base sm:text-lg text-[#1A1A1A] leading-relaxed font-semibold mb-6">
-            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+            {copyData.exactQuote}
           </p>
           <a
             href="https://pay.kiwify.com.br/FEHxh6q"
@@ -500,7 +538,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             rel="noreferrer"
             className="w-full sm:w-auto inline-flex px-10 py-4 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-base shadow-lg hover:shadow-2xl transition-all duration-300 items-center justify-center gap-3 cursor-pointer transform hover:scale-[1.02]"
           >
-            <span>Quero parar de fracassar</span>
+            <span>{copyData.ctaText}</span>
             <ArrowRight size={18} />
           </a>
           <span className="block text-[10px] font-mono text-emerald-700 font-bold mt-3 animate-pulse">✓ Entrega 100% Segura • Acesso Vitalício com Bônus</span>
@@ -569,14 +607,16 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
       {/* SECTION 10: CTA FINAL (FECHAMENTO CIRCULAR) */}
       <section className="py-16 sm:py-24 bg-[#121212] text-[#FDFCF9] text-center px-4 border-t border-stone-800" id="section-final-cta">
         <div className="max-w-2xl mx-auto space-y-6">
-          <span className="font-mono text-xs uppercase tracking-widest text-[#C5A880] font-semibold animate-pulse block">⌛ OFERTA DE TEMPO LIMITADO</span>
+          <span className="font-mono text-xs uppercase tracking-widest text-[#C5A880] font-semibold animate-pulse block">
+            {copyData.finalUrgencyBadge}
+          </span>
           
           <h2 className="font-serif text-3xl sm:text-4xl text-white tracking-tight leading-tight max-w-xl mx-auto">
-            Esta noite você vai deitar com o mesmo peso no peito, ou vai escolher ter um norte claro?
+            {copyData.finalHeadline}
           </h2>
 
           <p className="font-sans text-sm sm:text-base text-stone-300 leading-relaxed max-w-lg mx-auto">
-            Daqui a 12 meses, você lembrará desse momento como o dia em que decidiu parar de andar em círculos e colocou ordem espiritual na sua mente, no seu casamento e na sua casa. Ou lembrará como mais uma oportunidade deixada de lado.
+            {copyData.finalSubtitle}
           </p>
 
           <div className="bg-[#1C1C1C] border border-[#C5A880]/30 rounded-xl p-5 max-w-md mx-auto my-8">
@@ -589,12 +629,12 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
           {/* Urgent Offer Clock display */}
           <div className="bg-gradient-to-r from-amber-950 via-stone-900 to-amber-950 border border-amber-800/40 rounded-xl py-3 px-6 max-w-md mx-auto flex items-center justify-center gap-3 font-mono text-sm shadow-inner mb-8">
             <Clock size={16} className="text-amber-400 animate-spin-slow" />
-            <span className="text-stone-300">Seu desconto expira em:</span>
+            <span className="text-stone-300">{copyData.finalTimerText}</span>
             <span className="font-bold text-amber-400 tracking-widest text-lg">{formatTime(timeLeft)}</span>
           </div>
 
           <p className="font-serif italic text-base sm:text-lg text-amber-200 leading-relaxed font-semibold max-w-xl mx-auto my-6">
-            "Vai deixar sua vida como esta ou mudar totalmente seu modo de viver ? Clique aqui e avance em cada area de sua vida"
+            {copyData.exactQuote}
           </p>
 
           <a
@@ -604,7 +644,7 @@ export default function SalesContent({ selectedCategory }: SalesContentProps) {
             id="btn-buy-final"
             className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-600 via-[#8C7A5B] to-amber-800 hover:from-amber-500 hover:via-[#736349] hover:to-amber-700 text-white font-sans font-bold rounded-lg text-lg shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 group mx-auto cursor-pointer transform hover:scale-[1.03]"
           >
-            <span>Quero parar de fracassar</span>
+            <span>{copyData.ctaText}</span>
             <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-200" />
           </a>
 
